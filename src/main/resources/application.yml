@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5435/postgres
+    url: jdbc:postgresql://localhost:5435/sock
     username: user
     password: qwerty
     driver-class-name: org.postgresql.Driver
@@ -12,4 +12,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  liquibase:
+    change-log: classpath:liquibase/db.changelog-master.yaml
+
 
