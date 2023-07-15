@@ -53,3 +53,13 @@ test {
 jacocoTestReport {
     dependsOn test
 }
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.5
+            }
+        }
+    }
+}

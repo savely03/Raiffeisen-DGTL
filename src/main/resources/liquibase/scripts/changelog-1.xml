@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="SavelyDomnikov">
+        <createTable tableName="sock">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="color" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cotton_part" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <sql>
+            ALTER TABLE sock
+                ADD CONSTRAINT check_cotton_part CHECK ( cotton_part &gt;= 0 AND cotton_part &lt;= 100),
+                ADD CONSTRAINT check_quantity CHECK ( quantity &gt; 0);
+        </sql>
+        <addUniqueConstraint tableName="sock" columnNames="color, cotton_part"
+                             constraintName="unique_color_and_cotton_part"/>
+    </changeSet>
+</databaseChangeLog>
+

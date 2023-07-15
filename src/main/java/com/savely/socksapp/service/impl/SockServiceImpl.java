@@ -10,6 +10,8 @@ import com.savely.socksapp.mapper.SockMapper;
 import com.savely.socksapp.repository.SockRepository;
 import com.savely.socksapp.service.SockService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +26,12 @@ public class SockServiceImpl implements SockService {
 
     private final SockRepository sockRepository;
     private final SockMapper sockMapper;
+    private final Logger logger = LoggerFactory.getLogger(SockServiceImpl.class);
 
     @Transactional
     @Override
     public void income(SockDto sockDto) {
+        logger.info("Was invoked method for incoming socks");
         sockRepository.findByColorAndCottonPart(sockDto.getColor(), sockDto.getCottonPart()).ifPresentOrElse(
                 sock -> {
                     sock.setQuantity(sock.getQuantity() + sockDto.getQuantity());
@@ -42,6 +46,7 @@ public class SockServiceImpl implements SockService {
     @Transactional
     @Override
     public void outcome(SockDto sockDto) {
+        logger.info("Was invoked method for outcoming socks");
         Sock sock = sockRepository.findByColorAndCottonPart(sockDto.getColor(), sockDto.getCottonPart())
                 .orElseThrow(SockNotFoundException::new);
         if (sock.getQuantity() < sockDto.getQuantity()) {
@@ -57,11 +62,15 @@ public class SockServiceImpl implements SockService {
 
     @Override
     public List<SockDto> getSocks(String color, String operation, int cottonPart) {
+        logger.info("Was invoked method for getting socks with operation");
         List<Sock> socks =
                 switch (operation) {
                     case "lessThan" -> sockRepository.findByColorAndCottonPartLessThan(color, cottonPart);
                     case "moreThan" -> sockRepository.findByColorAndCottonPartGreaterThan(color, cottonPart);
-                    default -> throw new IncorrectOperationException();
+                    default -> {
+                        logger.warn("Incorrect operation");
+                        throw new IncorrectOperationException();
+                    }
                 };
         return socks.stream()
                 .map(sockMapper::toDto)
@@ -70,7 +79,9 @@ public class SockServiceImpl implements SockService {
 
     @Override
     public List<SockDto> getSocks(int page, int size) {
+        logger.info("Was invoked method for getting socks with pagination");
         if (page <= 0 || size <= 0) {
+            logger.warn("Incorrect page or size");
             throw new IncorrectPaginationException();
         }
         return sockRepository.findAll(PageRequest.of(page - 1, size))
@@ -81,8 +92,12 @@ public class SockServiceImpl implements SockService {
 
     @Override
     public SockDto getSockEqual(String color, int cottonPart) {
+        logger.info("Was invoked method for getting equals socks");
         return sockRepository.findByColorAndCottonPart(color, cottonPart)
                 .map(sockMapper::toDto)
-                .orElseThrow(SockNotFoundException::new);
+                .orElseThrow(() -> {
+                    logger.warn("Socks doesn't exist");
+                    return new SockNotFoundException();
+                });
     }
 }
