@@ -5,6 +5,11 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
+    <preConditions>
+        <not>
+            <tableExists tableName="sock"/>
+        </not>
+    </preConditions>
     <changeSet id="1" author="SavelyDomnikov">
         <createTable tableName="sock">
             <column name="id" type="BIGINT" autoIncrement="true">
@@ -27,6 +32,10 @@
         </sql>
         <addUniqueConstraint tableName="sock" columnNames="color, cotton_part"
                              constraintName="unique_color_and_cotton_part"/>
+        <rollback>
+            <dropTable tableName="sock"/>
+        </rollback>
     </changeSet>
+
 </databaseChangeLog>
 
