@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  postgres-db:
+    image: postgres:15.3
+    container_name: sock-db
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=qwerty
+      - POSTGRES_DB=sock
+    ports:
+      - '5435:5432'
+  sock:
+    build: ./
+    container_name: sock-app
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres-db
+    command:
+      - java -jar app.jar
+    environment:
+      - 'SPRING_PROFILES_ACTIVE=docker'

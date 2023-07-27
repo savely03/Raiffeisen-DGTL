@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
-      file: liquibase/scripts/changelog-1.xml
+      file: liquibase/scripts/changelog-sock-1.xml
+  - include:
+      file: liquibase/scripts/changelog-user-1.xml

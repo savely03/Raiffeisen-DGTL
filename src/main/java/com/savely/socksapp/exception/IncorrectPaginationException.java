@@ -2,7 +2,7 @@ package com.savely.socksapp.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class IncorrectPaginationException extends BaseSockException {
+public class IncorrectPaginationException extends BaseException {
     public IncorrectPaginationException() {
         super(HttpStatus.BAD_REQUEST);
     }

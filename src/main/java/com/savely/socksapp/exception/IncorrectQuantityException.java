@@ -2,7 +2,7 @@ package com.savely.socksapp.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class IncorrectQuantityException extends BaseSockException {
+public class IncorrectQuantityException extends BaseException {
     public IncorrectQuantityException() {
         super(HttpStatus.BAD_REQUEST);
     }

@@ -5,12 +5,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <preConditions>
+    <preConditions onFail="WARN">
         <not>
             <tableExists tableName="sock"/>
         </not>
     </preConditions>
-    <changeSet id="1" author="SavelyDomnikov">
+    <changeSet id="1-Sock" author="SavelyDomnikov">
         <createTable tableName="sock">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>

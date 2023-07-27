@@ -18,5 +18,11 @@ spring:
 logging:
   file:
     path: logs
+  level:
+    org:
+      springframework:
+        security: debug
+
+
 
 

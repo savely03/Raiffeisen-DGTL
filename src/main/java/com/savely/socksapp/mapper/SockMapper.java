@@ -6,4 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface SockMapper extends GeneralMapper<SockDto, Sock> {
+    @Override
+    Sock toEntity(SockDto dto);
 }

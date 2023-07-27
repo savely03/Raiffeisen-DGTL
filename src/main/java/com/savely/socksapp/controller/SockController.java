@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/socks")
@@ -45,5 +45,4 @@ public class SockController {
     public ResponseEntity<List<SockDto>> getSocks(@RequestParam int page, @RequestParam int size) {
         return ResponseEntity.ok(sockService.getSocks(page, size));
     }
-
 }
